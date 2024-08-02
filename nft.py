@@ -7,10 +7,11 @@ import pandas as pd
 import numpy as np
 import time
 import os
-import random
 from progressbar import progressbar
 
 import warnings
+import secrets
+
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 
@@ -41,7 +42,7 @@ def parse_config():
         if layer['rarity_weights'] is None:
             rarities = [1 for x in traits]
         elif layer['rarity_weights'] == 'random':
-            rarities = [random.random() for x in traits]
+            rarities = [secrets.SystemRandom().random() for x in traits]
         elif type(layer['rarity_weights'] == 'list'):
             assert len(traits) == len(layer['rarity_weights']), "Make sure you have the current number of rarity weights"
             rarities = layer['rarity_weights']
@@ -126,7 +127,7 @@ def generate_trait_set_from_config():
         traits, cum_rarities = layer['traits'], layer['cum_rarity_weights']
 
         # Generate a random number
-        rand_num = random.random()
+        rand_num = secrets.SystemRandom().random()
 
         # Select an element index based on random number and cumulative rarity weights
         idx = select_index(cum_rarities, rand_num)
